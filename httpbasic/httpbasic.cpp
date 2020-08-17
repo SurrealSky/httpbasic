@@ -3,12 +3,7 @@
 
 #include "stdafx.h"
 #include<typedef.h>
-#include<httpxx/error.hpp>
-#include<httpxx/Flags.hpp>
-#include<httpxx/Method.hpp>
-#include<httpxx/Message.hpp>
-#include<httpxx/Request.hpp>
-#include<httpxx/Response.hpp>
+#include<httpxx/http.hpp>
 
 #include <iostream>
 #include <ctime>
@@ -52,7 +47,7 @@ public:
 			try
 			{
 				// Parse request in random increments.
-				http::Request request;
+				http::BufferedRequest request;
 				request.feed(pbody, bodylen);
 				if (!request.complete()) {
 					std::cerr << "Request still needs data." << std::endl;
@@ -68,29 +63,17 @@ public:
 				std::cout
 					<< "Fubar: '" << request.header("Fubar") << "'."
 					<< std::endl;
-			/*	std::cout
+				std::cout
 					<< "Body: '" << request.body() << "'."
-					<< std::endl;*/
+					<< std::endl;
 			}
 			catch (const std::exception& error)
 			{
 				std::cerr
 					<< error.what()
 					<< std::endl;
-				return (EXIT_FAILURE);
+				return false;
 			}
-
-			//std::string str;
-			//str.insert(0, pbody, bodylen);
-			//if (pbody[0] == 0x28 && pbody[1] == 0x00 && pbody[2] == 0x00 && pbody[5] == 0x00 && pbody[6] == 0x00
-			//	&& pbody[9] == 0x8)
-			//{
-			//	return true;
-			//}
-			//else if (pbody[0] == 0x5b && (pbody[3] == 0x01 || pbody[3] == 0x02))
-			//{
-			//	return true;
-			//}
 		}
 		return false;
 	}
