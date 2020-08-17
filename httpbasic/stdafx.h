@@ -23,11 +23,11 @@
 #endif
 
 
-#include"../MemoryPool/MemMgr.h"
-using namespace SurrealMemMgr;
+//#include"../MemoryPool/MemMgr.h"
+//using namespace SurrealMemMgr;
 
-#ifdef _DEBUG
-#pragma comment(lib, "..\\Debug\\MemMgr.lib")
-#else
-#pragma comment(lib, "..\\Release\\MemMgr.lib")
-#endif
+//#ifdef _DEBUG
+//#pragma comment(lib, "..\\Debug\\MemMgr.lib")
+//#else
+//#pragma comment(lib, "..\\Release\\MemMgr.lib")
+//#endif
