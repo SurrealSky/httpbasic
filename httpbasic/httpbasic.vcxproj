@@ -151,10 +151,61 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\CommonLib\include\httpxx\BufferedMessage.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\Error.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\Flags.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\http-parser\http_parser.h" />
+    <ClInclude Include="..\CommonLib\include\httpxx\http.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\icompare.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\Message.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\MessageBuilder.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\Method.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\Request.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\RequestBuilder.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\Response.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\ResponseBuilder.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\Url.hpp" />
+    <ClInclude Include="..\CommonLib\include\httpxx\UserBufferedMessage.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\CommonLib\include\httpxx\Error.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Flags.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\http-parser\http_parser.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\icompare.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Message.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\MessageBuilder.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Method.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Request.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\RequestBuilder.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Response.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\ResponseBuilder.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Url.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

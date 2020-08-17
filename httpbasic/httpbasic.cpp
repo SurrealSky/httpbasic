@@ -3,6 +3,15 @@
 
 #include "stdafx.h"
 #include<typedef.h>
+#include<httpxx/error.hpp>
+#include<httpxx/Flags.hpp>
+#include<httpxx/Method.hpp>
+#include<httpxx/Message.hpp>
+#include<httpxx/Request.hpp>
+#include<httpxx/Response.hpp>
+
+#include <iostream>
+#include <ctime>
 
 
 #define MYPORT(port) (port == 80|| port == 8080 || port==443 || port==8000) 
@@ -40,17 +49,48 @@ public:
 		if (isFilter)
 		{
 			//常规会话流特征判断
-			std::string str;
-			str.insert(0, pbody, bodylen);
-			if (pbody[0] == 0x28 && pbody[1] == 0x00 && pbody[2] == 0x00 && pbody[5] == 0x00 && pbody[6] == 0x00
-				&& pbody[9] == 0x8)
+			try
 			{
-				return true;
+				// Parse request in random increments.
+				http::Request request;
+				request.feed(pbody, bodylen);
+				if (!request.complete()) {
+					std::cerr << "Request still needs data." << std::endl;
+					return (EXIT_FAILURE);
+				}
+				// Show that we've parsed it correctly.
+				std::cout
+					<< "Connection: '" << request.header("Connection") << "'."
+					<< std::endl;
+				std::cout
+					<< "Host: '" << request.header("Host") << "'."
+					<< std::endl;
+				std::cout
+					<< "Fubar: '" << request.header("Fubar") << "'."
+					<< std::endl;
+			/*	std::cout
+					<< "Body: '" << request.body() << "'."
+					<< std::endl;*/
 			}
-			else if (pbody[0] == 0x5b && (pbody[3] == 0x01 || pbody[3] == 0x02))
+			catch (const std::exception& error)
 			{
-				return true;
+				std::cerr
+					<< error.what()
+					<< std::endl;
+				return (EXIT_FAILURE);
 			}
+
+			//std::string str;
+			//str.insert(0, pbody, bodylen);
+			//if (pbody[0] == 0x28 && pbody[1] == 0x00 && pbody[2] == 0x00 && pbody[5] == 0x00 && pbody[6] == 0x00
+			//	&& pbody[9] == 0x8)
+			//{
+			//	return true;
+			//}
+			//else if (pbody[0] == 0x5b && (pbody[3] == 0x01 || pbody[3] == 0x02))
+			//{
+			//	return true;
+			//}
 		}
 		return false;
 	}

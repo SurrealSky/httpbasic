@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="httpxx">
+      <UniqueIdentifier>{beb88015-00ca-4a7d-a536-f887914f6491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="httpxx\http-parser">
+      <UniqueIdentifier>{32c4e257-0369-4bdb-b1c9-4762922d1748}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -24,6 +30,51 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\BufferedMessage.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\Error.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\Flags.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\http.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\icompare.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\Message.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\MessageBuilder.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\Method.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\Request.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\RequestBuilder.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\Response.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\ResponseBuilder.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\Url.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\UserBufferedMessage.hpp">
+      <Filter>httpxx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonLib\include\httpxx\http-parser\http_parser.h">
+      <Filter>httpxx\http-parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -34,6 +85,42 @@
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Error.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Flags.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\icompare.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Message.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\MessageBuilder.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Method.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Request.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\RequestBuilder.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Response.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\ResponseBuilder.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\Url.cpp">
+      <Filter>httpxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonLib\include\httpxx\http-parser\http_parser.c">
+      <Filter>httpxx\http-parser</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
