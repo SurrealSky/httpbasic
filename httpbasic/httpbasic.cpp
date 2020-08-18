@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include<typedef.h>
 #include<httpxx/http.hpp>
-
+//#include<unordered_map>
 #include <iostream>
 #include <ctime>
 
@@ -106,11 +106,33 @@ public:
 		{
 			if (isClient2Server)
 			{
-
+				http::BufferedRequest request;
+				int used = 0;
+				while (used < bodylen) {
+					used += request.feed(pbody + used, bodylen - used);
+				}
+				mapresult.insert(std::pair<std::string, std::string>("method", request.method_name()));
+				std::map<std::string, std::string>::const_iterator itor = request.headers().begin();
+				for (; itor != request.headers().end(); itor++)
+				{
+					mapresult.insert(std::pair<std::string, std::string>(itor->first,itor->second));
+				}
+				mapresult.insert(std::pair<std::string, std::string>("body", request.body()));
 			}
 			else
 			{
-
+				http::BufferedResponse response;
+				int used = 0;
+				while (used < bodylen) {
+					used += response.feed(pbody + used, bodylen - used);
+				}
+				mapresult.insert(std::pair<std::string, std::string>("status", SurrealDebugLog::string_format("%d", response.status())));
+				std::map<std::string, std::string>::const_iterator itor = response.headers().begin();
+				for (; itor != response.headers().end(); itor++)
+				{
+					mapresult.insert(std::pair<std::string, std::string>(itor->first, itor->second));
+				}
+				mapresult.insert(std::pair<std::string, std::string>("body", response.body()));
 			}
 		}
 		catch (const std::exception& error)

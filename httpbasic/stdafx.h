@@ -22,6 +22,7 @@
 #pragma comment(lib, "Release\\CorePlugin.lib")
 #endif
 
+#include<LogLib\DebugLog.h>
 
 //#include"../MemoryPool/MemMgr.h"
 //using namespace SurrealMemMgr;
