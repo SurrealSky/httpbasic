@@ -28,7 +28,7 @@ public:
 	bool ForFilter(const unsigned int srcPort, const unsigned int dstPrt, const char *pbody, const unsigned int bodylen)
 	{
 		//长度过滤
-		if (bodylen < 0x9)
+		if (bodylen < 0x5)
 		{
 			return false;
 		}
@@ -43,57 +43,48 @@ public:
 		}
 		if (isFilter)
 		{
-			//常规会话流特征判断
-			try
+			if ((pbody[0] == 'G'&&pbody[1] == 'E'&&pbody[2] == 'T'&&pbody[3] == 0x20) ||
+				(pbody[0] == 'P'&&pbody[1] == 'O'&&pbody[2] == 'S'&&pbody[3] == 'T'&&pbody[4] == 0x20))
 			{
-				// Parse request in random increments.
-				http::BufferedRequest request;
-				request.feed(pbody, bodylen);
-				if (!request.complete()) {
-					std::cerr << "Request still needs data." << std::endl;
-					return (EXIT_FAILURE);
-				}
-				// Show that we've parsed it correctly.
-				std::cout
-					<< "Connection: '" << request.header("Connection") << "'."
-					<< std::endl;
-				std::cout
-					<< "Host: '" << request.header("Host") << "'."
-					<< std::endl;
-				std::cout
-					<< "Fubar: '" << request.header("Fubar") << "'."
-					<< std::endl;
-				std::cout
-					<< "Body: '" << request.body() << "'."
-					<< std::endl;
-			}
-			catch (const std::exception& error)
-			{
-				std::cerr
-					<< error.what()
-					<< std::endl;
-				return false;
+				return true;
 			}
 		}
 		return false;
 	}
 	unsigned int ActualLen(const char *pbody, const unsigned int bodylen, const bool isClient2Server)
 	{
-		unsigned int len = 0;
-		if (pbody[0] == 0x28)
+		unsigned int len = bodylen;
+		try
 		{
-			len = 2;
-			unsigned int offset = 1;
-			len = len + STswab32(*(int*)(pbody + offset));
-			offset += 4;
-			len += 4;
-			len = len + STswab32(*(int*)(pbody + offset));
-			len += 4;
+			// Parse request in random increments.
+			http::BufferedRequest request;
+			request.feed(pbody, bodylen);
+
+			if (request.method_name() == "GET")
+			{
+				len = bodylen;
+			}
+			else if (request.method_name() == "POST")
+			{
+				if (request.has_header("Content-Length"))
+				{
+					std::string str_content_len = request.header("Content-Length");
+					unsigned int content_len = ::strtoll(str_content_len.c_str(), 0, 10);
+
+					len = content_len;
+				}
+			}
+			else
+			{
+				len = bodylen;
+			}
 		}
-		else if (pbody[0] == 0x5b)
+		catch (const std::exception& error)
 		{
-			unsigned int offset = 1;
-			len = STswab16(*(short*)(pbody + offset));
+			std::cerr
+				<< error.what()
+				<< std::endl;
+			return false;
 		}
 
 		return len;
