@@ -56,43 +56,68 @@ public:
 		unsigned int len = bodylen;
 		try
 		{
-			// Parse request in random increments.
-			http::BufferedRequest request;
-			request.feed(pbody, bodylen);
+			//判断是请求还是应答
 
-			if (request.method_name() == "GET")
+			if (isClient2Server)
 			{
-				len = bodylen;
-			}
-			else if (request.method_name() == "POST")
-			{
-				if (request.has_header("Content-Length"))
+				http::BufferedRequest request;
+				request.feed(pbody, bodylen);
+
+				if (request.method_name() == "GET")
 				{
-					std::string str_content_len = request.header("Content-Length");
-					unsigned int content_len = ::strtoll(str_content_len.c_str(), 0, 10);
-
-					len = content_len;
+					len = bodylen;
 				}
-			}
-			else
+				else if (request.method_name() == "POST")
+				{
+					if (request.has_header("Content-Length"))
+					{
+						std::string str_content_len = request.header("Content-Length");
+						unsigned int content_len = ::strtoll(str_content_len.c_str(), 0, 10);
+						len = bodylen + content_len - request.body().size();
+					}
+				}
+				else
+				{
+					len = bodylen;
+				}
+			}else
 			{
-				len = bodylen;
-			}
+				http::BufferedResponse response;
+				response.feed(pbody, bodylen);
+				if (response.has_header("Content-Length"))
+				{
+					std::string str_content_len = response.header("Content-Length");
+					unsigned int content_len = ::strtoll(str_content_len.c_str(), 0, 10);
+					len = bodylen + content_len - response.body().size();
+				}
+			}	
 		}
 		catch (const std::exception& error)
 		{
-			std::cerr
-				<< error.what()
-				<< std::endl;
-			return false;
+			return len;
 		}
-
 		return len;
 	}
 	std::map<std::string, std::string> Analysis(const char *pbody, const unsigned int bodylen, const bool isClient2Server)
 	{
 		std::map<std::string, std::string> mapresult;
 	
+		try
+		{
+			if (isClient2Server)
+			{
+
+			}
+			else
+			{
+
+			}
+		}
+		catch (const std::exception& error)
+		{
+			mapresult.insert(std::pair<std::string, std::string>("error", "http parse error"));
+			return mapresult;
+		}
 		return mapresult;
 	}
 
