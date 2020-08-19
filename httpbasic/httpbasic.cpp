@@ -57,9 +57,14 @@ public:
 		try
 		{
 			//判断是请求还是应答
-
 			if (isClient2Server)
 			{
+				//两个库都可以
+				//pcpp::HttpRequestLayer httplayer((u_char*)pbody,bodylen,0,0);
+				//u_char *p=httplayer.getLayerPayload();
+				//pcpp::HeaderField *field=httplayer.getFieldByName("Content-Length");
+				//std::string strValue=field->getFieldValue();
+
 				http::BufferedRequest request;
 				request.feed(pbody, bodylen);
 
