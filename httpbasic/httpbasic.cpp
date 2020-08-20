@@ -180,7 +180,7 @@ public:
 						if (size != cont_len)
 						{
 							mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
-							return mapresult;
+							continue;
 						}
 					}
 					//开始解析加密数据
@@ -189,7 +189,7 @@ public:
 				catch (const std::exception& error)
 				{
 					mapresult.insert(std::pair<std::string, std::string>("error", "http parse error"));
-					return mapresult;
+					continue;
 				}
 			}
 			else
@@ -212,7 +212,7 @@ public:
 						if (size != cont_len)
 						{
 							mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
-							return mapresult;
+							continue;
 						}
 					}
 					//开始解析加密数据
@@ -221,7 +221,7 @@ public:
 				catch (const std::exception& error)
 				{
 					mapresult.insert(std::pair<std::string, std::string>("error", "http parse error"));
-					return mapresult;
+					continue;
 				}
 			}
 		}

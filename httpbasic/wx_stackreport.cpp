@@ -300,9 +300,25 @@ bool wx_stackreport_complete(std::map<std::string, std::string>& mapresult, cons
 	if (url.size())
 	{
 		size_t pos= url.find("sum=");
-		std::string str = url.substr(pos+4);
+		std::string str = url.substr(pos + 4);
 		pos=str.find_first_of("&");
 		key = str.substr(0, pos);
+	}
+	std::string reporttype;
+	if (url.size())
+	{
+		size_t pos = url.find("reporttype=");
+		std::string str = url.substr(pos + 11);
+		pos = str.find_first_of("&");
+		reporttype = str.substr(0, pos);
+	}
+	std::string NewReportType;
+	if (url.size())
+	{
+		size_t pos = url.find("NewReportType=");
+		std::string str = url.substr(pos + 14);
+		pos = str.find_first_of("&");
+		NewReportType = str.substr(0, pos);
 	}
 	unsigned char *srcbuffer =(unsigned char *)(request.body().c_str());
 	unsigned int srclen = request.body().size();
@@ -315,7 +331,7 @@ bool wx_stackreport_complete(std::map<std::string, std::string>& mapresult, cons
 	std::string body;
 	body.append((char*)odata, strlen((char*)odata));
 	unsigned int number = mapresult.size();
-	mapresult.insert(std::pair<std::string, std::string>(SurrealDebugLog::string_format("decbody-%d", number), body));
+	mapresult.insert(std::pair<std::string, std::string>(SurrealDebugLog::string_format("decbody-%d-%s-%s", number, reporttype.c_str(), NewReportType.c_str()), body));
 	free(odata);
 	odata = 0;
 	free(dstbuffer);
