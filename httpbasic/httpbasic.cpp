@@ -123,6 +123,7 @@ public:
 					mapresult.insert(std::pair<std::string, std::string>(itor->first,itor->second));
 				}
 				mapresult.insert(std::pair<std::string, std::string>("body", request.body()));
+				mapresult.insert(std::pair<std::string, std::string>("url", request.url()));
 			}
 			else
 			{
