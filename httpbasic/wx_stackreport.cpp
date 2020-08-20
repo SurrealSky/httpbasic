@@ -277,16 +277,25 @@ int zdecompress(Byte *zdata, uLong nzdata, Bytef *odata, uLong dstLen)
 	return _zdecompress(zdata, nzdata, odata, &nodata);
 };
 
-bool wx_stackreport_very_sign(std::map<std::string, std::string>& mapresult,const pcpp::HttpRequestLayer &httplayer)
+bool wx_stackreport_very_sign(std::map<std::string, std::string>& mapresult,const http::BufferedRequest &request)
 {
-	return true;
+	const std::string sigurl = "/cgi-bin/mmsupport-bin/stackreport?";
+	std::string sighost="support.weixin.qq.com";
+
+	if (request.header("Host") == sighost)
+	{
+		std::string url = request.url();
+		if (url.find(sigurl) != -1)
+			return true;
+	}
+	return false;
 }
 
-bool wx_stackreport_complete(std::map<std::string, std::string>& mapresult,const pcpp::HttpRequestLayer &httplayer)
+bool wx_stackreport_complete(std::map<std::string, std::string>& mapresult, const http::BufferedRequest &request)
 {
-	if (!wx_stackreport_very_sign(mapresult, httplayer))
+	if (!wx_stackreport_very_sign(mapresult, request))
 		return false;
-	std::string url=httplayer.getUrl();
+	std::string url=request.url();
 	std::string key;
 	if (url.size())
 	{
@@ -295,8 +304,8 @@ bool wx_stackreport_complete(std::map<std::string, std::string>& mapresult,const
 		pos=str.find_first_of("&");
 		key = str.substr(0, pos);
 	}
-	unsigned char *srcbuffer = httplayer.getLayerPayload();
-	unsigned int srclen = httplayer.getLayerPayloadSize();
+	unsigned char *srcbuffer =(unsigned char *)(request.body().c_str());
+	unsigned int srclen = request.body().size();
 	unsigned int dstlen = srclen;
 	char *dstbuffer = (char*)malloc(dstlen);
 	memset(dstbuffer, 0, dstlen);
@@ -305,7 +314,8 @@ bool wx_stackreport_complete(std::map<std::string, std::string>& mapresult,const
 	zdecompress((Byte*)dstbuffer, dstlen, odata, dstlen * 2);
 	std::string body;
 	body.append((char*)odata, strlen((char*)odata));
-	mapresult.insert(std::pair<std::string, std::string>("decbody", body));
+	unsigned int number = mapresult.size();
+	mapresult.insert(std::pair<std::string, std::string>(SurrealDebugLog::string_format("decbody-%d", number), body));
 	free(odata);
 	odata = 0;
 	free(dstbuffer);

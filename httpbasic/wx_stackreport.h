@@ -13,4 +13,4 @@
 
 #define BUF_SIZE 65535
 
-bool wx_stackreport_complete(std::map<std::string, std::string>& mapresult,const pcpp::HttpRequestLayer &httplayer);
+bool wx_stackreport_complete(std::map<std::string, std::string>& mapresult,const http::BufferedRequest &request);

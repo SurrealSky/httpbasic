@@ -163,21 +163,24 @@ public:
 				//request
 				try
 				{
-					u_char *body = (u_char*)malloc(itor->payload.size());//httplayer会自动释放这个区域
-					memcpy(body, (u_char*)itor->payload.c_str(), itor->payload.size());
-					pcpp::HttpRequestLayer httplayer(body, itor->payload.size(),0,0);
-					u_char *p=httplayer.getLayerPayload();
-					pcpp::HeaderField *field=httplayer.getFieldByName("Content-Length");
-					std::string strValue=field->getFieldValue();
+					unsigned char *pbody =(unsigned char *)(itor->payload.c_str());
+					unsigned int bodylen = itor->payload.size();					
+					
+					http::BufferedRequest request;
+					int used = 0;
+					while (used < bodylen) {
+						used += request.feed(pbody + used, bodylen - used);
+					}
+					std::string strValue=request.header("Content-Length");
 					size_t cont_len = strtoll(strValue.c_str(), 0, 10);
-					size_t size = httplayer.getLayerPayloadSize();
+					size_t size = request.body().size();
 					if (size != cont_len)
 					{
 						mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
 						return mapresult;
 					}
 					//开始解析加密数据
-					all_http_common_request(mapresult, httplayer);
+					all_http_common_request(mapresult, request);
 				}
 				catch (const std::exception& error)
 				{
@@ -190,21 +193,23 @@ public:
 				//response
 				try
 				{
-					u_char *body = (u_char*)malloc(itor->payload.size());//httplayer会自动释放这个区域
-					memcpy(body, (u_char*)itor->payload.c_str(), itor->payload.size());
-					pcpp::HttpResponseLayer httplayer(body, itor->payload.size(), 0, 0);
-					u_char *p = httplayer.getLayerPayload();
-					pcpp::HeaderField *field = httplayer.getFieldByName("Content-Length");
-					std::string strValue = field->getFieldValue();
+					unsigned char *pbody = (unsigned char *)(itor->payload.c_str());
+					unsigned int bodylen = itor->payload.size();
+					http::BufferedResponse response;
+					int used = 0;
+					while (used < bodylen) {
+						used += response.feed(pbody + used, bodylen - used);
+					}
+					std::string strValue = response.header("Content-Length");
 					size_t cont_len = strtoll(strValue.c_str(), 0, 10);
-					size_t size = httplayer.getLayerPayloadSize();
+					size_t size = response.body().size();
 					if (size != cont_len)
 					{
 						mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
 						return mapresult;
 					}
 					//开始解析加密数据
-					all_http_common_response(mapresult, httplayer);
+					all_http_common_response(mapresult, response);
 				}
 				catch (const std::exception& error)
 				{

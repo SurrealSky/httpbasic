@@ -8,12 +8,12 @@
 // TODO: 在 STDAFX.H 中引用任何所需的附加头文件，
 //而不是在此文件中引用
 
-void all_http_common_request(std::map<std::string, std::string>& mapresult, const pcpp::HttpRequestLayer &httplayer)
+void all_http_common_request(std::map<std::string, std::string>& mapresult, const http::BufferedRequest &httplayer)
 {
 	wx_stackreport_complete(mapresult, httplayer);
 }
 
-void all_http_common_response(std::map<std::string, std::string>& mapresult, const pcpp::HttpResponseLayer &httplayer)
+void all_http_common_response(std::map<std::string, std::string>& mapresult, const http::BufferedResponse &httplayer)
 {
 
 }
