@@ -25,6 +25,7 @@ public:
 		else if MYPORT(dstPrt)
 			return true;
 	}
+	
 	bool ForFilter(const unsigned int srcPort, const unsigned int dstPrt, const char *pbody, const unsigned int bodylen)
 	{
 		//长度过滤
@@ -51,6 +52,7 @@ public:
 		}
 		return false;
 	}
+	
 	unsigned int ActualLen(const char *pbody, const unsigned int bodylen, const bool isClient2Server)
 	{
 		unsigned int len = bodylen;
@@ -103,6 +105,7 @@ public:
 		}
 		return len;
 	}
+	
 	std::map<std::string, std::string> Analysis(const char *pbody, const unsigned int bodylen, const bool isClient2Server)
 	{
 		std::map<std::string, std::string> mapresult;
@@ -152,7 +155,60 @@ public:
 	std::map<std::string, std::string> AnalysisList(const std::list<IAnalyzerData>& packets)
 	{
 		std::map<std::string, std::string> mapresult;
-
+		std::list<IAnalyzerData>::const_iterator itor = packets.begin();
+		for (; itor != packets.end(); itor++)
+		{
+			if (IsClient2Server(itor->srcPort,itor->dstPort))
+			{
+				//request
+				try
+				{
+					pcpp::HttpRequestLayer httplayer((u_char*)itor->payload.c_str(), itor->payload.size(),0,0);
+					u_char *p=httplayer.getLayerPayload();
+					pcpp::HeaderField *field=httplayer.getFieldByName("Content-Length");
+					std::string strValue=field->getFieldValue();
+					size_t cont_len = strtoll(strValue.c_str(), 0, 10);
+					size_t size = httplayer.getLayerPayloadSize();
+					if (size != cont_len)
+					{
+						mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
+						return mapresult;
+					}
+					//开始解析加密数据
+					all_http_common_request(mapresult, httplayer);
+				}
+				catch (const std::exception& error)
+				{
+					mapresult.insert(std::pair<std::string, std::string>("error", "http parse error"));
+					return mapresult;
+				}
+			}
+			else
+			{
+				//response
+				try
+				{
+					pcpp::HttpResponseLayer httplayer((u_char*)itor->payload.c_str(), itor->payload.size(), 0, 0);
+					u_char *p = httplayer.getLayerPayload();
+					pcpp::HeaderField *field = httplayer.getFieldByName("Content-Length");
+					std::string strValue = field->getFieldValue();
+					size_t cont_len = strtoll(strValue.c_str(), 0, 10);
+					size_t size = httplayer.getLayerPayloadSize();
+					if (size != cont_len)
+					{
+						mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
+						return mapresult;
+					}
+					//开始解析加密数据
+					all_http_common_response(mapresult, httplayer);
+				}
+				catch (const std::exception& error)
+				{
+					mapresult.insert(std::pair<std::string, std::string>("error", "http parse error"));
+					return mapresult;
+				}
+			}
+		}
 		return mapresult;
 	}
 };

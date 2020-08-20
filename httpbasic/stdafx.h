@@ -62,3 +62,8 @@ using namespace pcpp;
 #endif
 
 #pragma comment(lib,"ws2_32.lib")
+
+
+
+void all_http_common_request(std::map<std::string, std::string>& mapresult, const pcpp::HttpRequestLayer &httplayer);
+void all_http_common_response(std::map<std::string, std::string>& mapresult, const pcpp::HttpResponseLayer &httplayer);

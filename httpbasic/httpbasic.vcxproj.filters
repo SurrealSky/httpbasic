@@ -19,6 +19,9 @@
     <Filter Include="httpxx\http-parser">
       <UniqueIdentifier>{32c4e257-0369-4bdb-b1c9-4762922d1748}</UniqueIdentifier>
     </Filter>
+    <Filter Include="modules">
+      <UniqueIdentifier>{549316fc-776b-4f1d-8dbf-216fde9d5072}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -75,6 +78,9 @@
     <ClInclude Include="..\CommonLib\include\httpxx\http-parser\http_parser.h">
       <Filter>httpxx\http-parser</Filter>
     </ClInclude>
+    <ClInclude Include="wx_stackreport.h">
+      <Filter>modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -121,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="..\CommonLib\include\httpxx\http-parser\http_parser.c">
       <Filter>httpxx\http-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="wx_stackreport.cpp">
+      <Filter>modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
