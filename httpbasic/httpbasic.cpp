@@ -155,7 +155,7 @@ public:
 	std::map<std::string, std::string> AnalysisList(const std::list<IAnalyzerData>& packets)
 	{
 		std::map<std::string, std::string> mapresult;
-		std::list<IAnalyzerData>::const_iterator itor = packets.begin();
+		std::list<IAnalyzerData>::const_iterator itor = packets.cbegin();
 		for (; itor != packets.end(); itor++)
 		{
 			if (IsClient2Server(itor->srcPort,itor->dstPort))
@@ -163,7 +163,9 @@ public:
 				//request
 				try
 				{
-					pcpp::HttpRequestLayer httplayer((u_char*)itor->payload.c_str(), itor->payload.size(),0,0);
+					u_char *body = (u_char*)malloc(itor->payload.size());//httplayer会自动释放这个区域
+					memcpy(body, (u_char*)itor->payload.c_str(), itor->payload.size());
+					pcpp::HttpRequestLayer httplayer(body, itor->payload.size(),0,0);
 					u_char *p=httplayer.getLayerPayload();
 					pcpp::HeaderField *field=httplayer.getFieldByName("Content-Length");
 					std::string strValue=field->getFieldValue();
@@ -188,7 +190,9 @@ public:
 				//response
 				try
 				{
-					pcpp::HttpResponseLayer httplayer((u_char*)itor->payload.c_str(), itor->payload.size(), 0, 0);
+					u_char *body = (u_char*)malloc(itor->payload.size());//httplayer会自动释放这个区域
+					memcpy(body, (u_char*)itor->payload.c_str(), itor->payload.size());
+					pcpp::HttpResponseLayer httplayer(body, itor->payload.size(), 0, 0);
 					u_char *p = httplayer.getLayerPayload();
 					pcpp::HeaderField *field = httplayer.getFieldByName("Content-Length");
 					std::string strValue = field->getFieldValue();
