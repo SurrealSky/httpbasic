@@ -171,13 +171,17 @@ public:
 					while (used < bodylen) {
 						used += request.feed(pbody + used, bodylen - used);
 					}
-					std::string strValue=request.header("Content-Length");
-					size_t cont_len = strtoll(strValue.c_str(), 0, 10);
-					size_t size = request.body().size();
-					if (size != cont_len)
+
+					if (request.has_header("Content-Length"))
 					{
-						mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
-						return mapresult;
+						std::string strValue = request.header("Content-Length");
+						size_t cont_len = strtoll(strValue.c_str(), 0, 10);
+						size_t size = request.body().size();
+						if (size != cont_len)
+						{
+							mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
+							return mapresult;
+						}
 					}
 					//开始解析加密数据
 					all_http_common_request(mapresult, request);
@@ -200,13 +204,16 @@ public:
 					while (used < bodylen) {
 						used += response.feed(pbody + used, bodylen - used);
 					}
-					std::string strValue = response.header("Content-Length");
-					size_t cont_len = strtoll(strValue.c_str(), 0, 10);
-					size_t size = response.body().size();
-					if (size != cont_len)
+					if (response.has_header("Content-Length"))
 					{
-						mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
-						return mapresult;
+						std::string strValue = response.header("Content-Length");
+						size_t cont_len = strtoll(strValue.c_str(), 0, 10);
+						size_t size = response.body().size();
+						if (size != cont_len)
+						{
+							mapresult.insert(std::pair<std::string, std::string>("error", "content length error"));
+							return mapresult;
+						}
 					}
 					//开始解析加密数据
 					all_http_common_response(mapresult, response);
